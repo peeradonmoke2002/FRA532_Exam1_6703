@@ -20,28 +20,34 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 import os
 import xacro    
-    
+from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
+
 # for open robot_state_publisher
 def generate_launch_description():
     
     pkg = get_package_share_directory('carver_description')
-    
+    use_sim_time = LaunchConfiguration('use_sim_time')
     path_description = os.path.join(pkg,'urdf','carver.urdf')
+
     robot_desc_xml = xacro.process_file(path_description).toxml()
     #robot_desc_xml = xacro.process_file(path_description,mappings={'robot_name': namespace}).toxml()
     
-    parameters = [{'robot_description':robot_desc_xml}]
+    params = [{'robot_description':robot_desc_xml,'use_sim_time': use_sim_time} ]
     #parameters.append({'frame_prefix':namespace+'/'})
-    robot_state_publisher = Node(package='robot_state_publisher',
+    node_robot_state_publisher = Node(package='robot_state_publisher',
                                   executable='robot_state_publisher',
                                   output='screen',
-                                  parameters=parameters
+                                  parameters=[params]
     )
     
 
 
-    launch_description = LaunchDescription()
-    
-    launch_description.add_action(robot_state_publisher)
-    
-    return launch_description
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='false',
+            description='Use sim time if true'),
+
+        node_robot_state_publisher
+    ])
