@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link
+    name="GPS_Link">
+    <inertial>
+      <origin
+        xyz="-9.67258589844588E-05 0.0027958130626774 0.00661285112166099"
+        rpy="0 0 0" />
+      <mass
+        value="0.157649586184773" />
+      <inertia
+        ixx="0.000226882899026971"
+        ixy="9.62036039848663E-09"
+        ixz="-6.77183823681943E-09"
+        iyy="0.000226230125367234"
+        iyz="2.64715488241936E-07"
+        izz="0.000435038255871577" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/GPS_Link.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/GPS_Link.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_GPS_joint"
+    type="fixed">
+    <origin
+      xyz="0.23423178728353 0.373617987041938 1.499"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="GPS_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+</robot>

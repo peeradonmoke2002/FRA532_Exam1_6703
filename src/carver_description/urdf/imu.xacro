@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link
+    name="IMU_R_Link">
+    <inertial>
+      <origin
+        xyz="0.000436358638984391 8.66736194223838E-05 -0.0010632487544171"
+        rpy="0 0 0" />
+      <mass
+        value="0.000983130183652042" />
+      <inertia
+        ixx="2.7278081479223E-08"
+        ixy="-1.86463715352951E-11"
+        ixz="-1.83135757569472E-11"
+        iyy="4.80453464098755E-08"
+        iyz="1.81575171892503E-12"
+        izz="7.48563776021962E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/IMU_R_Link.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/IMU_R_Link.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_IMU_R_joint"
+    type="fixed">
+    <origin
+      xyz="0.0271694412238607 -0.0191012435918216 0.383"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="IMU_R_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="IMU_L_Link">
+    <inertial>
+      <origin
+        xyz="0.000436358638983645 8.6673619412142E-05 -0.0010632487544171"
+        rpy="0 0 0" />
+      <mass
+        value="0.000983130183652038" />
+      <inertia
+        ixx="2.7278081479223E-08"
+        ixy="-1.86463715354835E-11"
+        ixz="-1.83135757570018E-11"
+        iyy="4.80453464098757E-08"
+        iyz="1.8157517189233E-12"
+        izz="7.48563776021965E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/IMU_L_Link.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/IMU_L_Link.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_IMU_L_joint"
+    type="fixed">
+    <origin
+      xyz="0.029419441223861 0.0191387564081886 0.383"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="IMU_L_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  
+ 
+
+</robot>

@@ -57,12 +57,18 @@
   <xacro:include filename="$(find carver_description)/urdf/gazebo.xacro" />
 
   <!-- Actuator configurations -->
-  <!-- <xacro:carver_wheel_transmission wheel_prefix="front_left_steering_front_right" />
+  <xacro:carver_wheel_transmission wheel_prefix="front_left_steering_front_right" />
   <xacro:carver_wheel_transmission wheel_prefix="front_left_steering_front_left" />
   <xacro:carver_wheel_transmission wheel_prefix="base_rear_left" />
   <xacro:carver_wheel_transmission wheel_prefix="base_rear_right" />
   <xacro:carver_steering_hinge_transmission wheel_prefix="base_front_right" />
-  <xacro:carver_steering_hinge_transmission wheel_prefix="base_front_left" /> -->
+  <xacro:carver_steering_hinge_transmission wheel_prefix="base_front_left" />
+
+  <!-- <xacro:gazebo_laser frame_prefix="laser" /> -->
+  <!-- <xacro:gazebo_imu link_name="IMU_R_Link" topic="/imu_right" frame_name="IMU_R_Link" />
+  <xacro:gazebo_imu link_name="IMU_L_Link" topic="/imu_left" frame_name="IMU_L_Link" /> -->
+  <!-- <xacro:gazebo_gps link_name="GPS_Link" topic="/gps/fix" frame_name="GPS_Link" /> -->
+
 
   <!-- Gazebo friction/contact parameters -->
   

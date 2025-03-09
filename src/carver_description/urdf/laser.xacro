@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- /////////////////////////////// -->
+  <link name="laser"></link>
+
+  <joint name="base_laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser"/>
+    <origin xyz="0 0 0.154015" rpy="0 0 0"/>
+  </joint>
+<!-- /////////////////////////////// -->
+
+  <link
+    name="RPLIDAR_LB_Link">
+    <inertial>
+      <origin
+        xyz="-0.000213861534750115 -9.30543889128277E-05 -0.0160849090284972"
+        rpy="0 0 0" />
+      <mass
+        value="0.0328083847884842" />
+      <inertia
+        ixx="1.08465576772131E-05"
+        ixy="-2.43583766177749E-09"
+        ixz="1.62330710182403E-08"
+        iyy="1.07881861028149E-05"
+        iyz="-4.20828622810503E-09"
+        izz="1.96376022023911E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/RPLIDAR_LB_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.4 0.4 0.4 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/RPLIDAR_LB_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+<!-- /////////////////////////////// -->
+  <joint
+    name="laser_RPLIDAR_LB_joint"
+    type="fixed">
+    <origin
+      xyz="-0.851155901465486 0.34071809177296 0"
+      rpy="0 0 3.14124991984497" />
+    <parent
+      link="laser" />
+    <child
+      link="RPLIDAR_LB_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+<!-- /////////////////////////////// -->
+
+  <link
+    name="RPLIDAR_RF_Link">
+    <inertial>
+      <origin
+        xyz="-0.000213861585845465 -9.30543355081581E-05 -0.0160849091652615"
+        rpy="0 0 0" />
+      <mass
+        value="0.0328083843446528" />
+      <inertia
+        ixx="1.0846557670466E-05"
+        ixy="-2.43584017901228E-09"
+        ixz="1.62330727639126E-08"
+        iyy="1.07881860979038E-05"
+        iyz="-4.20828723807052E-09"
+        izz="1.96376022018237E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/RPLIDAR_RF_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.4 0.4 0.4 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find carver_description)/meshes/RPLIDAR_RF_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+<!-- /////////////////////////////// -->
+  <joint
+    name="laser_RPLIDAR_RF_joint"
+    type="fixed">
+    <origin
+      xyz="0.912523944720348 -0.381327891424126 0"
+      rpy="0 0 0" />
+    <parent
+      link="laser" />
+    <child
+      link="RPLIDAR_RF_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+<!-- /////////////////////////////// -->
+
+    <gazebo reference="RPLIDAR_LB_Link">
+            <material>Gazebo/Red</material>
+            <sensor name="laser_LB" type="ray">
+            <always_on>true</always_on>
+            <visualize>false</visualize>
+            <update_rate>20</update_rate>
+            <ray>
+                <scan>
+                <horizontal>
+                    <samples>180</samples>
+                    <resolution>0.5</resolution>
+                    <min_angle>-1.91986</min_angle> 
+                    <max_angle>0.349066</max_angle>   
+                </horizontal>
+                </scan>
+                <range>
+                <min>0.3</min>
+                <max>30.0</max>
+                <resolution>0.01</resolution>
+                </range>
+                <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.005</stddev>
+                </noise>
+            </ray>
+            <plugin name="scan_LB" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                <remapping>~/out:=scan_LB</remapping>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>RPLIDAR_LB_Link</frame_name>
+            </plugin>
+            </sensor>
+    </gazebo>   
+
+
+    <gazebo reference="RPLIDAR_RF_Link">
+            <material>Gazebo/Yellow</material>
+            <sensor name="laser_RF" type="ray">
+            <always_on>true</always_on>
+            <visualize>false</visualize>
+            <update_rate>20</update_rate>
+            <ray>
+                <scan>
+                <horizontal>
+                    <samples>180</samples>
+                    <resolution>0.5</resolution>
+                    <min_angle>-1.91986</min_angle> 
+                    <max_angle>0.349066</max_angle>   
+               </horizontal>
+                </scan>
+                <range>
+                <min>0.3</min>
+                <max>30.0</max>
+                <resolution>0.01</resolution>
+                </range>
+                <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.005</stddev>
+                </noise>
+            </ray>
+            <plugin name="scan_RF" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                <remapping>~/out:=scan_RF</remapping>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>RPLIDAR_RF_Link</frame_name>
+            </plugin>
+            </sensor>
+    </gazebo>   
+
+
+</robot>

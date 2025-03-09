@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(carver_controller)
+project(carver_odometry)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -28,7 +28,6 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   scripts/dummy_script.py
-  scripts/ackermann_controller.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -49,7 +48,6 @@ install(TARGETS
 ################ INSTALL LAUNCH, ETC #################
 install(DIRECTORY
   # add directories here
-  launch
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()
