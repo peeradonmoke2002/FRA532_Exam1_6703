@@ -64,7 +64,7 @@
       <origin
         xyz="-6.87012402522669E-09 3.51066137271872E-09 -0.0112499999237069"
         rpy="0 0 0" />
-      <mass
+      <!-- <mass
         value="0.0307417074716638" />
       <inertia
         ixx="5.15827058483555E-06"
@@ -72,7 +72,9 @@
         ixz="-2.37787643316582E-12"
         iyy="5.94711293506547E-06"
         iyz="1.79592218418332E-13"
-        izz="8.17709432093611E-06" />
+        izz="8.17709432093611E-06" /> -->
+        <mass value="0.25" />
+        <inertia ixx="0.00525" ixy="0" ixz="0" iyy="0.00035" iyz="0" izz="0.00525" />
     </inertial>
     <visual>
       <origin
@@ -102,7 +104,7 @@
     name="base_front_right_sterring_joint"
     type="revolute">
     <origin
-      xyz="0.639118924633511 -0.284499999999994 -0.158749999999999"
+      xyz="0.639118924633511 -0.284499999999994 -0.17"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -110,11 +112,7 @@
       link="front_right_sterring_Link" />
     <axis
       xyz="0 0 -1" />
-    <limit
-      lower="-3.14"
-      upper="3.14"
-      effort="100"
-      velocity="100" />
+    <limit lower="-0.698132" upper="0.698132" effort="1000" velocity="1.0" />
   </joint>
   <link
     name="front_right_wheel_Link">
@@ -172,13 +170,14 @@
       effort="100"
       velocity="100" />
   </joint>
+
   <link
     name="front_left_sterring_Link">
     <inertial>
       <origin
         xyz="7.10743075504894E-09 -3.0012958229797E-09 -0.0112499999237069"
         rpy="0 0 0" />
-      <mass
+      <!-- <mass
         value="0.0307417074716638" />
       <inertia
         ixx="5.15827283476504E-06"
@@ -186,7 +185,9 @@
         ixz="2.38464111309773E-12"
         iyy="5.94711068513598E-06"
         iyz="-6.03807311086712E-15"
-        izz="8.17709432093612E-06" />
+        izz="8.17709432093612E-06" /> -->
+        <mass value="0.25" />
+        <inertia ixx="0.00525" ixy="0" ixz="0" iyy="0.00035" iyz="0" izz="0.00525" />
     </inertial>
     <visual>
       <origin
@@ -216,7 +217,7 @@
     name="base_front_left_sterring_joint"
     type="revolute">
     <origin
-      xyz="0.639118924633511 0.284499999999994 -0.158749999999999"
+      xyz="0.639118924633511 0.284499999999994 -0.17"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -224,11 +225,7 @@
       link="front_left_sterring_Link" />
     <axis
       xyz="0 0 -1" />
-    <limit
-      lower="-3.14"
-      upper="3.14"
-      effort="100"
-      velocity="100" />
+    <limit lower="-0.698132" upper="0.698132" effort="1000" velocity="1.0" />
   </joint>
   <link
     name="front_left_wheel_Link">
@@ -286,11 +283,13 @@
       effort="100"
       velocity="100" />
   </joint>
+
+
   <link
     name="rear_right_wheel_Link">
     <inertial>
       <origin
-        xyz="-1.11022302462516E-16 -8.32667268468867E-17 0.0379999999999999"
+        xyz="-1.11022302462516E-16 -8.32667268468867E-17 -0.038"
         rpy="0 0 0" />
       <mass
         value="5.024500013847" />
@@ -398,6 +397,8 @@
       effort="100"
       velocity="100" />
   </joint>
+
+<!-- /////////////////////////////// -->
 
   <link
     name="C16_Link">

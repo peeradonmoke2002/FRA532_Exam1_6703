@@ -57,8 +57,8 @@
   <xacro:include filename="$(find carver_description)/urdf/gazebo.xacro" />
 
   <!-- Actuator configurations -->
-  <xacro:carver_wheel_transmission wheel_prefix="front_left_steering_front_right" />
   <xacro:carver_wheel_transmission wheel_prefix="front_left_steering_front_left" />
+  <xacro:carver_wheel_transmission wheel_prefix="front_right_steering_front_right" />
   <xacro:carver_wheel_transmission wheel_prefix="base_rear_left" />
   <xacro:carver_wheel_transmission wheel_prefix="base_rear_right" />
   <xacro:carver_steering_hinge_transmission wheel_prefix="base_front_right" />
@@ -113,7 +113,7 @@
     <kd value="1.0"/>
   </gazebo>
 
-  <gazebo reference="front_right_steering_front_left_wheel_joint">
+  <gazebo reference="front_right_steering_front_right_wheel_joint">
     <mu1>10.0</mu1>
     <mu2>10.0</mu2>
     <minDepth>0.0001</minDepth>
