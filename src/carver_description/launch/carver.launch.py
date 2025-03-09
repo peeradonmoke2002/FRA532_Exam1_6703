@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """
 This program is free software: you can redistribute it and/or modify it 
@@ -25,22 +25,22 @@ from launch.actions import DeclareLaunchArgument
 
 # for open robot_state_publisher
 def generate_launch_description():
-    
-    pkg = get_package_share_directory('carver_description')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    path_description = os.path.join(pkg,'urdf','carver.urdf')
 
-    robot_desc_xml = xacro.process_file(path_description).toxml()
+    pkg_path = os.path.join(get_package_share_directory('carver_description'))
+    xacro_file = os.path.join(pkg_path,'urdf','carver.urdf.xacro')
+
+    robot_description_config = xacro.process_file(xacro_file)
+
     #robot_desc_xml = xacro.process_file(path_description,mappings={'robot_name': namespace}).toxml()
-    
-    params = [{'robot_description':robot_desc_xml,'use_sim_time': use_sim_time} ]
+    params = {'robot_description': robot_description_config.toxml(), 'use_sim_time': use_sim_time}
     #parameters.append({'frame_prefix':namespace+'/'})
-    node_robot_state_publisher = Node(package='robot_state_publisher',
-                                  executable='robot_state_publisher',
-                                  output='screen',
-                                  parameters=[params]
-    )
-    
+    node_robot_state_publisher = Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            output='screen',
+            parameters=[params]
+        )
 
 
     return LaunchDescription([

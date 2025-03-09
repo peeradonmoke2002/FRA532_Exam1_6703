@@ -51,6 +51,7 @@ install(DIRECTORY
   worlds
   launch
   models
+  config
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()
