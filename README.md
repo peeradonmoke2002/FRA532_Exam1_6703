@@ -49,11 +49,11 @@ colcon build --symlink-install
 
 source ~/FRA532_Exam1_6703/install/setup.bash
 ```
-[Optional] To automatically source the workspace in every terminal, add this line to your `~/.bashrc`:
-
-```bash
-echo "source ~/FRA532_Exam1_6703/install/setup.bash" >> ~/.bashrc
-```
+> [!TIP]  
+>[Optional] To automatically source the workspace in every terminal, add this line to your `~/.bashrc`:
+>```bash
+>echo "source ~/FRA532_Exam1_6703/install/setup.bash" >> ~/.bashrc
+>```
 
 
 ### Gazebo setup
