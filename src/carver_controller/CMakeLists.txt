@@ -29,6 +29,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/dummy_script.py
   scripts/ackermann_controller.py
+  scripts/marge_two_imu.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

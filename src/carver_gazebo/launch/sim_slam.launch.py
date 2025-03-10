@@ -51,7 +51,7 @@ def generate_launch_description():
 
     merge_lidar_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("ros2_laser_scan_merger"), "launch", "merge_2_scan.launch.py")
+            os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_lidar.launch.py")
         )
     )
 
@@ -108,11 +108,16 @@ def generate_launch_description():
     )
 
    # Start RViz
-    rviz = Node(
-        package="rviz2",
-        executable="rviz2",
-        arguments=["-d", rviz_file_path],
-        output="screen"
+    # rviz = Node(
+    #     package="rviz2",
+    #     executable="rviz2",
+    #     arguments=["-d", rviz_file_path],
+    #     output="screen"
+    # )
+    slam_rviz = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(
+        os.path.join(get_package_share_directory("carver_slam"), "launch", "slam.launch.py")
+        )
     )
 
      # Create LaunchDescription
@@ -159,7 +164,7 @@ def generate_launch_description():
 
 
     # Add launch actions
-    launch_description.add_action(rviz)
+    launch_description.add_action(slam_rviz)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
     launch_description.add_action(controller)

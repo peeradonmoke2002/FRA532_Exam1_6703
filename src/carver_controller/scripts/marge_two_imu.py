@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
@@ -21,7 +21,7 @@ class MergeTwoIMU(Node):
 
         # Publisher for the merged IMU message
         self.merged_pub = self.create_publisher(Imu, 'imu', 10)
-        self.get_logger().info('MergeTwoIMU node started')
+        # self.get_logger().info('MergeTwoIMU node started')
 
     def imu_callback(self, imu_left: Imu, imu_right: Imu):
         merged_imu = Imu()
