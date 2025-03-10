@@ -4,16 +4,16 @@
 
     <gui fullscreen='0'>
      <camera name="user_camera">
-       <pose>-40.637 0.86 2.365 0 0.1899 0.476</pose>
+       <pose>-8.419020 -0.292350 3.363605 0.0 0.336001 0.059192</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
      </camera>
     </gui>
 
     <scene>
-      <!-- <grid>true</grid>
+      <grid>true</grid>
       <origin_visual>true</origin_visual>
-      <ambient>0.85 0.85 0.85 1</ambient> -->
+      <!-- <ambient>0.85 0.85 0.85 1</ambient> -->
       <!-- <sky>
         <clouds>
           <speed>12</speed>
@@ -22,11 +22,11 @@
       <background>0.35 0.35 0.35 1.0</background>
     </scene>
 
-    <physics name='default_physics' default='0' type='ode'>
+    <!-- <physics name='default_physics' default='0' type='ode'>
       <max_step_size>0.005</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>200</real_time_update_rate>
-    </physics>
+    </physics> -->
 
     <!-- A global light source -->
     <light type="directional" name="sun">
@@ -57,8 +57,10 @@
           <surface>
             <friction>
               <ode>
-                <mu>100</mu>
-                <mu2>50</mu2>
+                <mu>2.5</mu>          <!-- Increase friction -->
+                <mu2>2.5</mu2>
+                <slip1>0.0</slip1>
+                <slip2>0.0</slip2>
               </ode>
             </friction>
           </surface>

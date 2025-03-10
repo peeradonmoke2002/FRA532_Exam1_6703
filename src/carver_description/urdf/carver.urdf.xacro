@@ -9,22 +9,25 @@
   <xacro:include filename="$(find carver_description)/urdf/laser.xacro" />
   <xacro:include filename="$(find carver_description)/urdf/gps.xacro" />
 
-<link
+  <link
     name="base_link">
-    <inertial>
+    <!-- <inertial>
       <origin
         xyz="0.0765717108056987 -0.000305321354473288 0.182746551264274"
         rpy="0 0 0" />
-      <mass
-        value="224.620223914356" />
-      <inertia
-        ixx="11.108875181717"
-        ixy="-0.000143787949337127"
-        ixz="-0.00666553671990701"
-        iyy="35.7202876824402"
-        iyz="-0.00132350955436525"
-        izz="40.7667100665166" />
-    </inertial>
+      <mass value="2.1557" />
+      <inertia 
+        ixx="0.1286" 
+        ixy="0" 
+        ixz="0"
+        iyy="0.3070" 
+        iyz="0" 
+        izz="0.4031" />
+    </inertial> -->
+    <xacro:inertial_box mass="3.0" x="0.63598" y="0.79085" z="0.10">
+        <origin xyz="0.0765717108056987 -0.000305321354473288 0.182746551264274" rpy="0 0 0"/>
+    </xacro:inertial_box>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -64,17 +67,14 @@
       <origin
         xyz="-6.87012402522669E-09 3.51066137271872E-09 -0.0112499999237069"
         rpy="0 0 0" />
-      <!-- <mass
-        value="0.0307417074716638" />
-      <inertia
-        ixx="5.15827058483555E-06"
-        ixy="2.87694711205719E-08"
-        ixz="-2.37787643316582E-12"
-        iyy="5.94711293506547E-06"
-        iyz="1.79592218418332E-13"
-        izz="8.17709432093611E-06" /> -->
-        <mass value="0.25" />
-        <inertia ixx="0.00525" ixy="0" ixz="0" iyy="0.00035" iyz="0" izz="0.00525" />
+      <mass value="0.1" />
+      <inertia 
+        ixx="0.00525" 
+        ixy="0.0" 
+        ixz="0.0"
+        iyy="0.00035" 
+        iyz="0.0" 
+        izz="0.00525" />
     </inertial>
     <visual>
       <origin
@@ -104,7 +104,7 @@
     name="base_front_right_sterring_joint"
     type="revolute">
     <origin
-      xyz="0.639118924633511 -0.284499999999994 -0.17"
+      xyz="0.639118924633511 -0.284499999999994 -0.158749999999999"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -112,24 +112,23 @@
       link="front_right_sterring_Link" />
     <axis
       xyz="0 0 -1" />
-    <limit lower="-0.698132" upper="0.698132" effort="1000" velocity="1.0" />
+    <limit lower="-1.49" upper="1.49" effort="1000" velocity="1.0" />
+    <dynamics damping="1.0" friction="2.0"/>
   </joint>
   <link
     name="front_right_wheel_Link">
-    <inertial>
+    <!-- <inertial>
       <origin
         xyz="0.00138386531093282 8.32667268468867E-17 0.0379747931765428"
         rpy="0 0 0" />
-      <mass
-        value="5.024500013847" />
-      <inertia
-        ixx="0.0459745995956163"
-        ixy="8.73502726855944E-19"
-        ixz="0.00152760354434749"
-        iyy="0.0459189311540779"
-        iyz="2.21482778889901E-18"
-        izz="0.0878380602731089" />
-    </inertial>
+      <mass value="0.5" />
+      <inertia ixx="0.01055" ixy="0" ixz="0" iyy="0.00075" iyz="0" izz="0.01055" /> 
+    </inertial> -->
+    <xacro:inertial_cylinder mass="0.1" length="0.65" radius="0.175">
+      <origin
+        xyz="0.00138386531093282 8.32667268468867E-17 0.0379747931765428"
+        rpy="0 0 0" />
+    </xacro:inertial_cylinder>
     <visual>
       <origin
         xyz="0 0 0"
@@ -170,24 +169,20 @@
       effort="100"
       velocity="100" />
   </joint>
-
   <link
     name="front_left_sterring_Link">
     <inertial>
       <origin
         xyz="7.10743075504894E-09 -3.0012958229797E-09 -0.0112499999237069"
         rpy="0 0 0" />
-      <!-- <mass
-        value="0.0307417074716638" />
-      <inertia
-        ixx="5.15827283476504E-06"
-        ixy="-2.88003004005144E-08"
-        ixz="2.38464111309773E-12"
-        iyy="5.94711068513598E-06"
-        iyz="-6.03807311086712E-15"
-        izz="8.17709432093612E-06" /> -->
-        <mass value="0.25" />
-        <inertia ixx="0.00525" ixy="0" ixz="0" iyy="0.00035" iyz="0" izz="0.00525" />
+      <mass value="0.1" />
+      <inertia 
+        ixx="0.00525" 
+        ixy="0.0" 
+        ixz="0.0"
+        iyy="0.00035" 
+        iyz="0.0" 
+        izz="0.00525" />
     </inertial>
     <visual>
       <origin
@@ -217,7 +212,7 @@
     name="base_front_left_sterring_joint"
     type="revolute">
     <origin
-      xyz="0.639118924633511 0.284499999999994 -0.17"
+      xyz="0.639118924633511 0.284499999999994 -0.158749999999999"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -225,24 +220,23 @@
       link="front_left_sterring_Link" />
     <axis
       xyz="0 0 -1" />
-    <limit lower="-0.698132" upper="0.698132" effort="1000" velocity="1.0" />
+    <limit lower="-1.49" upper="1.49" effort="1000" velocity="1.0" />
+    <dynamics damping="1.0" friction="2.0"/>
   </joint>
   <link
     name="front_left_wheel_Link">
-    <inertial>
+    <!-- <inertial>
       <origin
         xyz="0.00138386531093293 1.38777878078145E-16 -0.0379747931765427"
         rpy="0 0 0" />
-      <mass
-        value="5.02450001384701" />
-      <inertia
-        ixx="0.0459745995956163"
-        ixy="4.79764755280667E-19"
-        ixz="-0.00152760354434749"
-        iyy="0.0459189311540779"
-        iyz="-2.40802616071845E-18"
-        izz="0.0878380602731089" />
-    </inertial>
+      <mass value="0.5" />
+      <inertia ixx="0.01055" ixy="0" ixz="0" iyy="0.00075" iyz="0" izz="0.01055" /> 
+    </inertial> -->
+    <xacro:inertial_cylinder mass="0.1" length="0.65" radius="0.175">
+      <origin
+        xyz="0.00138386531093293 1.38777878078145E-16 -0.0379747931765427"
+        rpy="0 0 0" />
+    </xacro:inertial_cylinder>
     <visual>
       <origin
         xyz="0 0 0"
@@ -283,24 +277,20 @@
       effort="100"
       velocity="100" />
   </joint>
-
-
   <link
     name="rear_right_wheel_Link">
-    <inertial>
+    <!-- <inertial>
       <origin
-        xyz="-1.11022302462516E-16 -8.32667268468867E-17 -0.038"
+        xyz="-1.11022302462516E-16 -8.32667268468867E-17 0.0379999999999999"
         rpy="0 0 0" />
-      <mass
-        value="5.024500013847" />
-      <inertia
-        ixx="0.0459189311540779"
-        ixy="-1.56634920793041E-17"
-        ixz="1.5500519296842E-19"
-        iyy="0.045918931154078"
-        iyz="2.98988825793E-19"
-        izz="0.0878937287146473" />
-    </inertial>
+      <mass value="0.5" />
+      <inertia ixx="0.01055" ixy="0" ixz="0" iyy="0.00075" iyz="0" izz="0.01055" /> 
+    </inertial> -->
+    <xacro:inertial_cylinder mass="0.1" length="0.65" radius="0.175">
+      <origin
+        xyz="-1.11022302462516E-16 -8.32667268468867E-17 0.0379999999999999"
+        rpy="0 0 0" />
+    </xacro:inertial_cylinder>
     <visual>
       <origin
         xyz="0 0 0"
@@ -343,20 +333,18 @@
   </joint>
   <link
     name="rear_left_wheel_Link">
-    <inertial>
+    <!-- <inertial>
       <origin
         xyz="-1.11022302462516E-16 -5.55111512312578E-17 -0.038"
         rpy="0 0 0" />
-      <mass
-        value="5.024500013847" />
-      <inertia
-        ixx="0.0459189311540779"
-        ixy="-1.69253786030664E-17"
-        ixz="-3.82127958527989E-20"
-        iyy="0.0459189311540779"
-        iyz="-3.5370156940672E-19"
-        izz="0.0878937287146472" />
-    </inertial>
+      <mass value="0.5" />
+      <inertia ixx="0.01055" ixy="0" ixz="0" iyy="0.00075" iyz="0" izz="0.01055" /> 
+    </inertial> -->
+    <xacro:inertial_cylinder mass="0.1" length="0.65" radius="0.175">
+      <origin
+        xyz="-1.11022302462516E-16 -5.55111512312578E-17 0.0379999999999999"
+        rpy="0 0 0" />
+    </xacro:inertial_cylinder>
     <visual>
       <origin
         xyz="0 0 0"
@@ -397,23 +385,22 @@
       effort="100"
       velocity="100" />
   </joint>
-
 <!-- /////////////////////////////// -->
 
   <link
     name="C16_Link">
     <inertial>
       <origin
-        xyz="-0.00088474978448877 1.07190642272392E-07 0.00143612694647577"
+        xyz="-0.00088474978448877 0.0 0.00143612694647577"
         rpy="0 0 0" />
       <mass
-        value="0.663324628749119" />
+        value="0.01" />
       <inertia
         ixx="0.000791421263365419"
-        ixy="1.38226469561758E-09"
-        ixz="-5.15681751766988E-06"
+        ixy="0.0"
+        ixz="0.0"
         iyy="0.000800507843146539"
-        iyz="1.51968163395454E-09"
+        iyz="0.00"
         izz="0.000866550903215115" />
     </inertial>
     <visual>
@@ -460,7 +447,7 @@
         xyz="-0.00700393876079974 -0.00123869269728641 -9.55081819808967E-06"
         rpy="0 0 0" />
       <mass
-        value="0.015352262982903" />
+        value="0.01" />
       <inertia
         ixx="1.39361946583924E-05"
         ixy="1.34672770579493E-08"
@@ -506,6 +493,46 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <!-- <gazebo reference="T265_Link">
+      <material>Gazebo/Yellow</material>
+      <sensor name="sensor_camera" type="depth">
+          <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+          <always_on>1</always_on>
+          <update_rate>10</update_rate>
+          <visualize>1</visualize>
+
+          <camera name="carver_camera">
+          <image>
+              <format>R8G8B8</format>
+              <width>400</width>
+              <height>400</height>
+          </image>
+          <clip>
+              <near>0.01</near>
+              <far>10.0</far>
+          </clip>
+          </camera>
+
+          <plugin name="gazebo_ros_depth_camera_sensor" filename="libgazebo_ros_camera.so">
+              <ros>
+                  <namespace>/carver</namespace>
+                  <ros-args>
+                      <remap from="carver_camera/image_raw" to="carver_camera/image"/>
+                      <remap from="carver_camera/image_depth" to="carver_camera/depth/camera_image_depth"/>
+                      <remap from="carver_camera/camera_info" to="carver_camera/camera_info_raw"/>
+                      <remap from="carver_camera/camera_info_depth" to="carver_camera/camera_info_depth"/>
+                      <remap from="carver_camera/points" to="carver_camera/camera_points"/>
+                  </ros-args>
+              </ros>
+              <camera_name>T265</camera_name>
+              <frame_name>T265_Link</frame_name>
+              <hack_baseline>0.07</hack_baseline>
+              <min_depth>0.001</min_depth>
+          </plugin>
+
+      </sensor>
+  </gazebo>
+   -->
   <link
     name="L515_Link">
     <inertial>
@@ -513,7 +540,7 @@
         xyz="-0.0138329335160927 0.000212766276144195 -0.0151333320328252"
         rpy="0 0 0" />
       <mass
-        value="0.0519003008833496" />
+        value="0.01" />
       <inertia
         ixx="2.29233885806633E-05"
         ixy="-3.43966785553731E-08"
@@ -559,6 +586,7 @@
     <axis
       xyz="0 0 0" />
   </joint>
+
   <link
     name="LD_SICK_Link">
     <inertial>
@@ -566,7 +594,7 @@
         xyz="-0.0476495449150161 3.70691349494235E-07 -4.44702155644183E-06"
         rpy="0 0 0" />
       <mass
-        value="0.911976961838322" />
+        value="0.01" />
       <inertia
         ixx="0.00155787250018401"
         ixy="-1.82431705564109E-09"

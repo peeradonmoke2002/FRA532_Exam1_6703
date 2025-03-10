@@ -15,11 +15,11 @@ def generate_launch_description():
 
     package_name = "carver_gazebo"
     package_name_urdf = "carver_description"
-    # world_file = "small_city.world"
-    world_file = "empty.world"
+    world_file = "small_city.world"
+    # world_file = "empty.world"
 
     gazebo_models_path = 'models'
-    rviz_file_name = "display.rviz"
+    rviz_file_name = "gazebo.rviz"
 
     spawn_x_val = "0.0"
     spawn_y_val = "0.0"

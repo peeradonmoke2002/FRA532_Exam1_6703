@@ -31,8 +31,3 @@ position_controllers:
     joints:
       - base_front_left_sterring_joint
       - base_front_right_sterring_joint
-    command_interface: 
-      - position
-    state_interface: 
-      - position
-      - effort

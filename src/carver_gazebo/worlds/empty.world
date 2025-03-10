@@ -8,6 +8,14 @@
     <!-- A ground plane -->
     <include>
       <uri>model://ground_plane</uri>
+      <friction>
+        <ode>
+          <mu>2.5</mu>          <!-- Increase friction -->
+          <mu2>2.5</mu2>
+          <slip1>0.0</slip1>
+          <slip2>0.0</slip2>
+        </ode>
+      </friction>
     </include>
   </world>
 </sdf>
