@@ -109,6 +109,7 @@
   </joint>
   
   <gazebo reference="IMU_R_Link">
+      <material>Gazebo/Yellow</material>
       <gravity>true</gravity>
       <sensor name="IMU_R" type="imu">
       <always_on>true</always_on>
@@ -187,6 +188,7 @@
   </gazebo> 
 
   <gazebo reference="IMU_L_Link">
+      <material>Gazebo/Yellow</material>
       <gravity>true</gravity>
       <sensor name="IMU_L" type="imu">
       <always_on>true</always_on>
