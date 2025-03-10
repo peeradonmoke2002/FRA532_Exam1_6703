@@ -15,11 +15,11 @@ def generate_launch_description():
 
     package_name = "carver_gazebo"
     package_name_urdf = "carver_description"
-    # world_file = "small_city.world"
-    world_file = "empty.world"
+    world_file = "small_city.world"
+    # world_file = "empty.world"
 
     gazebo_models_path = 'models'
-    rviz_file_name = "gazebo.rviz"
+    rviz_file_name = "merge_lidar.rviz"
 
     spawn_x_val = "0.0"
     spawn_y_val = "0.0"
@@ -55,11 +55,7 @@ def generate_launch_description():
         )
     )
 
-    merge_imu_launch = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(
-        os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_imu.launch.py")
-        )
-    )
+
     # Spawn the robot at a specific location
     spawn_entity = Node(
         package="gazebo_ros",
@@ -82,16 +78,7 @@ def generate_launch_description():
 
     controller = Node(
     	package="carver_controller",
-    	executable="ackermann_controller.py",
-        name="ackermann_controller",
-        output="screen"
-    )
-
-    ackerman_yaw_rate_odom = Node(
-    	package="carver_odometry",
-    	executable="ackerman_yaw_rate_odom.py",
-        name="ackerman_yaw_rate_odom",
-        output="screen"
+    	executable="ackermann_controller.py"
     )
 
 
@@ -117,16 +104,11 @@ def generate_launch_description():
     )
 
    # Start RViz
-    # rviz = Node(
-    #     package="rviz2",
-    #     executable="rviz2",
-    #     arguments=["-d", rviz_file_path],
-    #     output="screen"
-    # )
-    slam_rviz = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(
-        os.path.join(get_package_share_directory("carver_slam"), "launch", "slam.launch.py")
-        )
+    rviz = Node(
+        package="rviz2",
+        executable="rviz2",
+        arguments=["-d", rviz_file_path],
+        output="screen"
     )
 
      # Create LaunchDescription
@@ -163,25 +145,13 @@ def generate_launch_description():
 
 
 
-    # Static Transform Publisher (world -> odom)
-    static_tf = launch_ros.actions.Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        arguments=["0", "0", "0", "0", "0", "0", "world", "odom"],
-        output="screen"
-    )
-
-
     # Add launch actions
-    # launch_description.add_action(slam_rviz)
+    launch_description.add_action(rviz)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
     launch_description.add_action(controller)
-    launch_description.add_action(ackerman_yaw_rate_odom)
     launch_description.add_action(rsp)
-    # launch_description.add_action(static_tf)
     launch_description.add_action(merge_lidar_launch)
-    launch_description.add_action(merge_imu_launch)
    
 
     return launch_description

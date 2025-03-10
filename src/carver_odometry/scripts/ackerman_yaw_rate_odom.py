@@ -137,9 +137,9 @@ class AckermannYawRateOdom(Node):
 
         self.tf_br.sendTransform(transform)
 
-        print('x:', np.round(self.robot_position[0], 3), 
-              'y:', np.round(self.robot_position[1], 3), 
-              'yaw:', np.round(self.absolute_yaw, 3))
+        # print('x:', np.round(self.robot_position[0], 3), 
+        #       'y:', np.round(self.robot_position[1], 3), 
+        #       'yaw:', np.round(self.absolute_yaw, 3))
 def main(args=None):
     rclpy.init(args=args)
     pub_odom_node = AckermannYawRateOdom()

@@ -50,6 +50,7 @@ install(TARGETS
 install(DIRECTORY
   # add directories here
   launch
+  params
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()

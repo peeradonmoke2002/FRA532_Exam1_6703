@@ -8,7 +8,7 @@
     </plugin>
   </gazebo>
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin name="ground_truth_plugin" filename="libgazebo_ros_p3d.so">
       <ros>
         <namespace>/ground_truth</namespace>
@@ -18,7 +18,7 @@
       <frameName>world</frameName>
       <updateRate>100.0</updateRate>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
   <!-- ROS2 Control block -->
   <ros2_control name="GazeboSystem" type="system">
