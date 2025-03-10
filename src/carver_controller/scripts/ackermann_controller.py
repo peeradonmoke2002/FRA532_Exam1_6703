@@ -12,9 +12,9 @@ class AckermannController(Node):
     def __init__(self):
         super().__init__('ackermann_controller')
         
-        self.wheel_base = 1.27196        # L: Distance between front and rear axles (meters)
-        self.wheel_radius = 0.175     # r: Rear wheel radius (meters)
-        self.track_width = 0.79085      # Distance between left and right wheels (meters)
+        self.wheel_base = 1.27196        
+        self.wheel_radius = 0.175   
+        self.track_width = 0.79085   
         self.max_steering_angle = np.deg2rad(30)  # Maximum steering angle (30 degrees in radians)
         # Initialize variables
         self.cmd_vel = [0.0, 0.0]
@@ -119,7 +119,7 @@ class AckermannController(Node):
                 print(left_angle,right_angle)
             self.publish_steering(left_angle, right_angle)
 
-        print(wheel_speed_left, wheel_speed_right)
+        # print(wheel_speed_left, wheel_speed_right)
 
         self.publish_wheel_speed(-wheel_speed_left, wheel_speed_right)
 

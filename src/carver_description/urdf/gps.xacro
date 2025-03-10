@@ -56,7 +56,7 @@
   </joint>
 
 
-<gazebo reference="GPS_Link">
+<!-- <gazebo reference="GPS_Link">
   <sensor name="gps_sensor" type="gps">
     <always_on>true</always_on>
     <update_rate>30</update_rate>
@@ -75,7 +75,7 @@
       <frame_name>GPS_Link</frame_name>
     </plugin>
   </sensor>
-</gazebo>
+</gazebo> -->
 
 
 </robot>

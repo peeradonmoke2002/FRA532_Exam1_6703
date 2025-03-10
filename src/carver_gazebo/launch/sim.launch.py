@@ -19,12 +19,12 @@ def generate_launch_description():
     # world_file = "empty.world"
 
     gazebo_models_path = 'models'
-    rviz_file_name = "gazebo.rviz"
+    rviz_file_name = "gazebo2.rviz"
 
     spawn_x_val = "0.0"
     spawn_y_val = "0.0"
     spawn_z_val = "0.0"
-    spawn_yaw_val = "1.57"
+    spawn_yaw_val = "0.0"
 
     
     # Paths
@@ -68,6 +68,13 @@ def generate_launch_description():
     print("GAZEBO_WORD_PATH = ", world_path)
     print("GAZEBO_MODEL_PATH = " + str(os.environ["GAZEBO_MODEL_PATH"]))
     # Controller Spawners
+
+    controller = Node(
+    	package="carver_controller",
+    	executable="ackermann_controller.py"
+    )
+
+
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -128,14 +135,27 @@ def generate_launch_description():
         )
     )
 
+    # Static Transform Publisher (world -> odom)
+    static_tf = launch_ros.actions.Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=["0", "0", "0", "0", "0", "0", "world", "odom"],
+        output="screen"
+    )
 
-
+    merge_lidar = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_lidar.launch.py")
+        )
+    )
     # Add launch actions
     launch_description.add_action(rviz)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
- 
+    launch_description.add_action(controller)
+    launch_description.add_action(merge_lidar)
     launch_description.add_action(rsp)
+    launch_description.add_action(static_tf)
    
 
     return launch_description
