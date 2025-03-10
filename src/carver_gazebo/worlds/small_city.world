@@ -2,6 +2,13 @@
 <sdf version="1.6">
   <world name="default">
 
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/gazebo</namespace>
+      </ros>
+      <update_rate>100.0</update_rate>
+    </plugin>
+    
     <gui fullscreen='0'>
      <camera name="user_camera">
        <pose>-8.419020 -0.292350 3.363605 0.0 0.336001 0.059192</pose>
@@ -4478,13 +4485,5 @@
       </pose>
       <uri>model://suv</uri>
     </include>
-
-    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
-      <ros>
-        <namespace>/gazebo</namespace>
-      </ros>
-      <update_rate>100.0</update_rate>
-    </plugin>
-
   </world>
 </sdf>

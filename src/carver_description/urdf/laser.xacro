@@ -152,7 +152,7 @@
             </ray>
             <plugin name="scan_LB" filename="libgazebo_ros_ray_sensor.so">
                 <ros>
-                <remapping>~/out:=scan_LB</remapping>
+                <remapping>~/out:=lidar_2/scan</remapping>
                 </ros>
                 <output_type>sensor_msgs/LaserScan</output_type>
                 <frame_name>RPLIDAR_LB_Link</frame_name>
@@ -189,7 +189,7 @@
             </ray>
             <plugin name="scan_RF" filename="libgazebo_ros_ray_sensor.so">
                 <ros>
-                <remapping>~/out:=scan_RF</remapping>
+                <remapping>~/out:=lidar_1/scan</remapping>
                 </ros>
                 <output_type>sensor_msgs/LaserScan</output_type>
                 <frame_name>RPLIDAR_RF_Link</frame_name>

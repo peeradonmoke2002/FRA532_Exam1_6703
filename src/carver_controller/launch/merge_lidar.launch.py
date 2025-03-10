@@ -12,9 +12,9 @@ from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     config = os.path.join(
-        get_package_share_directory('ros2_laser_scan_merger'),
+        get_package_share_directory('carver_controller'),
         'config',
-        'params.yaml'
+        'params_lidar.yaml'
     )
     return LaunchDescription([
         

@@ -49,6 +49,11 @@ def generate_launch_description():
         launch_arguments={'world': world_path}.items()
     )  
 
+    merge_lidar_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_lidar.launch.py")
+        )
+    )
     # Spawn the robot at a specific location
     spawn_entity = Node(
         package="gazebo_ros",
@@ -135,6 +140,9 @@ def generate_launch_description():
         )
     )
 
+
+
+
     # Static Transform Publisher (world -> odom)
     static_tf = launch_ros.actions.Node(
         package="tf2_ros",
@@ -143,17 +151,13 @@ def generate_launch_description():
         output="screen"
     )
 
-    merge_lidar = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_lidar.launch.py")
-        )
-    )
+
     # Add launch actions
     launch_description.add_action(rviz)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
     launch_description.add_action(controller)
-    launch_description.add_action(merge_lidar)
+    launch_description.add_action(merge_lidar_launch)
     launch_description.add_action(rsp)
     launch_description.add_action(static_tf)
    
