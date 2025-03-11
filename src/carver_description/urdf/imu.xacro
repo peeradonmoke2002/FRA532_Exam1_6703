@@ -21,7 +21,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/IMU_R_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/IMU_R_Link.STL" />
       </geometry>
       <material name='imu_r_material'>
         <color rgba="0.75 0.75 0.75 1" />
@@ -37,7 +37,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/IMU_R_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/IMU_R_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -74,7 +74,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/IMU_L_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/IMU_L_Link.STL" />
       </geometry>
       <material name='imu_l_material'>
         <color rgba="0.75 0.75 0.75 1" />
@@ -90,7 +90,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/IMU_L_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/IMU_L_Link.STL" />
       </geometry>
     </collision>
   </link>

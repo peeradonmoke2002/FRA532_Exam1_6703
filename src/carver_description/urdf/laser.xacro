@@ -33,7 +33,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/RPLIDAR_LB_Link.STL" />
+          filename="file:///$(find carver_description)/meshes/RPLIDAR_LB_Link.STL" />
       </geometry>
       <material
         name="">
@@ -47,7 +47,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/RPLIDAR_LB_Link.STL" />
+          filename="file:///$(find carver_description)/meshes/RPLIDAR_LB_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -89,7 +89,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/RPLIDAR_RF_Link.STL" />
+          filename="file:///$(find carver_description)/meshes/RPLIDAR_RF_Link.STL" />
       </geometry>
       <material
         name="">
@@ -103,7 +103,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find carver_description)/meshes/RPLIDAR_RF_Link.STL" />
+          filename="file:///$(find carver_description)/meshes/RPLIDAR_RF_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -124,78 +124,77 @@
   </joint>
 <!-- /////////////////////////////// -->
 
-    <gazebo reference="RPLIDAR_LB_Link">
-            <material>Gazebo/Red</material>
-            <sensor name="laser_LB" type="ray">
-            <always_on>true</always_on>
-            <visualize>false</visualize>
-            <update_rate>20</update_rate>
-            <ray>
-                <scan>
-                <horizontal>
-                    <samples>180</samples>
-                    <resolution>0.5</resolution>
-                    <min_angle>-1.91986</min_angle> 
-                    <max_angle>0.349066</max_angle>   
-                </horizontal>
-                </scan>
-                <range>
-                <min>0.3</min>
-                <max>30.0</max>
-                <resolution>0.01</resolution>
-                </range>
-                <noise>
-                <type>gaussian</type>
-                <mean>0.0</mean>
-                <stddev>0.005</stddev>
-                </noise>
-            </ray>
-            <plugin name="scan_LB" filename="libgazebo_ros_ray_sensor.so">
-                <ros>
-                <remapping>~/out:=scan_LB</remapping>
-                </ros>
-                <output_type>sensor_msgs/LaserScan</output_type>
-                <frame_name>RPLIDAR_LB_Link</frame_name>
-            </plugin>
-            </sensor>
-    </gazebo>   
+  <gazebo reference="RPLIDAR_LB_Link">
+          <material>Gazebo/FlatBlack</material>
+          <sensor name="RPLIDAR_LB_Link" type="ray">
+          <always_on>true</always_on>
+          <visualize>false</visualize>
+          <update_rate>12.5</update_rate>
+          <ray>
+              <scan>
+              <horizontal>
+                  <samples>541</samples>
+                  <resolution>1</resolution>
+                  <min_angle>-1.91986</min_angle> 
+                  <max_angle>0.349066</max_angle>   
+              </horizontal>
+              </scan>
+              <range>
+              <min>0.05</min>
+              <max>29.0</max>
+              <resolution>0.01</resolution>
+              </range>
+              <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+              </noise>
+          </ray>
+          <plugin name="gazebo_ros_RPLIDAR_LB_Link_controller" filename="libgazebo_ros_ray_sensor.so">
+              <ros>
+              <remapping>~/out:=scan_LB</remapping>
+              </ros>
+              <output_type>sensor_msgs/LaserScan</output_type>
+              <frame_name>RPLIDAR_LB_Link</frame_name>
+          </plugin>
+          </sensor>
+  </gazebo>   
 
 
-    <gazebo reference="RPLIDAR_RF_Link">
-            <material>Gazebo/Yellow</material>
-            <sensor name="laser_RF" type="ray">
-            <always_on>true</always_on>
-            <visualize>false</visualize>
-            <update_rate>20</update_rate>
-            <ray>
-                <scan>
-                <horizontal>
-                    <samples>180</samples>
-                    <resolution>0.5</resolution>
-                    <min_angle>-1.91986</min_angle> 
-                    <max_angle>0.349066</max_angle>   
-               </horizontal>
-                </scan>
-                <range>
-                <min>0.3</min>
-                <max>30.0</max>
-                <resolution>0.01</resolution>
-                </range>
-                <noise>
-                <type>gaussian</type>
-                <mean>0.0</mean>
-                <stddev>0.005</stddev>
-                </noise>
-            </ray>
-            <plugin name="scan_RF" filename="libgazebo_ros_ray_sensor.so">
-                <ros>
-                <remapping>~/out:=scan_RF</remapping>
-                </ros>
-                <output_type>sensor_msgs/LaserScan</output_type>
-                <frame_name>RPLIDAR_RF_Link</frame_name>
-            </plugin>
-            </sensor>
-    </gazebo>   
-
+  <gazebo reference="RPLIDAR_RF_Link">
+          <material>Gazebo/FlatBlack</material>
+          <sensor name="RPLIDAR_RF_Link" type="ray">
+          <always_on>true</always_on>
+          <visualize>false</visualize>
+          <update_rate>12.5</update_rate>
+          <ray>
+              <scan>
+              <horizontal>
+                  <samples>541</samples>
+                  <resolution>1</resolution>
+                  <min_angle>-1.91986</min_angle> 
+                  <max_angle>0.349066</max_angle>   
+              </horizontal>
+              </scan>
+              <range>
+              <min>0.05</min>
+              <max>29.0</max>
+              <resolution>0.01</resolution>
+              </range>
+              <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+              </noise>
+          </ray>
+          <plugin name="gazebo_ros_RPLIDAR_RF_Link_controller" filename="libgazebo_ros_ray_sensor.so">    
+              <ros>
+              <remapping>~/out:=scan_RF</remapping>
+              </ros>
+              <output_type>sensor_msgs/LaserScan</output_type>
+              <frame_name>RPLIDAR_RF_Link</frame_name>
+          </plugin>
+          </sensor>
+  </gazebo>   
 
 </robot>

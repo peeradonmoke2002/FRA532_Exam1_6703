@@ -15,9 +15,10 @@ def generate_launch_description():
 
     package_name = "carver_gazebo"
     package_name_urdf = "carver_description"
-    world_file = "small_city.world"
-    # world_file = "empty.world"
-
+    # world_file = "small_city.world"
+    
+    
+    world_file = "empty.world"
     gazebo_models_path = 'models'
     rviz_file_name = "gazebo.rviz"
 
@@ -51,7 +52,7 @@ def generate_launch_description():
 
     merge_lidar_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("ros2_laser_scan_merger"), "launch", "merge_2_scan.launch.py")
+            os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_lidar.launch.py")
         )
     )
 
@@ -164,7 +165,7 @@ def generate_launch_description():
     launch_description.add_action(spawn_entity)
     launch_description.add_action(controller)
     launch_description.add_action(rsp)
-    launch_description.add_action(static_tf)
+    # launch_description.add_action(static_tf)
     launch_description.add_action(merge_lidar_launch)
     launch_description.add_action(merge_imu_launch)
    
