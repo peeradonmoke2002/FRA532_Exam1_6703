@@ -66,3 +66,33 @@ source ~/FRA532_Exam1_6703/install/setup.bash
 
 The robot estimates its position using odometry based on a yaw rate that fuses wheel velocity data with yaw information from the IMU. However, this method can still suffer from errors or slippage. To improve accuracy, we employ an Extended Kalman Filter (EKF) via the robot_localization package. The EKF refines the pose estimation by reducing noise and compensating for data gaps, ultimately publishing the improved estimate on the `/odometry/filtered` topic.
 
+### Step for do slam
+
+
+step 1: open gazbo and import model robot
+```bash
+ros2 launch robot_bringup sim_slam.launch.py
+```
+step 2: open rviz and slam toolbox
+```bash
+ros2 launch robot_slam mapping.launch.py
+```
+step3: Control robot to collect map data
+```bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+step4: save map
+```
+ros2 launch robot_slam save_map.launch.py
+```
+
+### Step for do nav
+
+step 1: open gazbo and import model robot
+```bash
+ros2 launch robot_bringup sim_slam.launch.py
+```
+step 2: open rviz and nav2
+```bash
+ros2 launch robot_nav nav.launch.py
+```
