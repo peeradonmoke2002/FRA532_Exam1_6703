@@ -64,5 +64,5 @@ source ~/FRA532_Exam1_6703/install/setup.bash
 
 ## Filter odom with slam and nav2
 
-
+The robot estimates its position using odometry based on a yaw rate that fuses wheel velocity data with yaw information from the IMU. However, this method can still suffer from errors or slippage. To improve accuracy, we employ an Extended Kalman Filter (EKF) via the robot_localization package. The EKF refines the pose estimation by reducing noise and compensating for data gaps, ultimately publishing the improved estimate on the `/odometry/filtered` topic.
 
