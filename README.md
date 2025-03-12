@@ -1,26 +1,20 @@
 # FRA532 Mobile Robot : Exam1
-This `Exam 1` repository is used in the `FRA532 Mobile Robot` class at FIBO. It covers kinematics, odometry, slam and navigation for carver outdoor robot which **executes in Gazebo simulation environment**.
+This `Exam 1` repository is used in the `FRA532 Mobile Robot` class at FIBO. It covers kinematics, odometry, slam and navigation aims to do ekf filter with combine with imu+gps by use diff drive `mir robot` **executes in Gazebo simulation environment**.
 
 ## Table of Contents
-
+- [Demo Video](#demo-video)
 - [System Overview](#system-overview)
 - [Installation](#installation)
+- [Filter odom with slam and nav2](#filter-odom-with-slam-and-nav2)
+
+
+## Demo Video
 
 
 
 ## System Overview
 
 
-Forder stucture 
-```markdown
-└── src
-    ├── carver_controller
-    ├── carver_description
-    ├── carver_gazebo
-    ├── carver_navigation
-    ├── carver_odometry
-    └── carver_slam
-```
 
 ## Installation
 
@@ -34,6 +28,19 @@ Forder stucture
 ```bash
 git clone https://github.com/peeradonmoke2002/FRA532_Exam1_6703.git
 ```
+Forder stucture 
+```markdown
+└── src
+    ├── aws-robomaker-small-warehouse-world
+    ├── robot_bringup
+    ├── robot_control
+    ├── robot_localization
+    ├── robot_nav
+    └── robot_slam
+```
+> [!WARNING]
+> plase be sure your work space are following forder stucture
+
 
 ### Step 2: Build Workspace
 ```bash
@@ -54,4 +61,8 @@ source ~/FRA532_Exam1_6703/install/setup.bash
 >```bash
 >echo "source ~/FRA532_Exam1_6703/install/setup.bash" >> ~/.bashrc
 >```
+
+## Filter odom with slam and nav2
+
+
 
