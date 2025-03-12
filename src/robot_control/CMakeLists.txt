@@ -28,6 +28,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   scripts/dummy_script.py
+  scripts/diff_yaw_rate_odom.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -48,8 +49,8 @@ install(TARGETS
 ################ INSTALL LAUNCH, ETC #################
 install(DIRECTORY
   # add directories here
-  launch
-  config
+  # launch
+  # config
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()

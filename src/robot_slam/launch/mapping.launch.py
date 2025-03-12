@@ -13,6 +13,10 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
+    rviz_config_dir = os.path.join(get_package_share_directory('robot_slam'), 'rviz')
+    rviz_config_file = os.path.join(rviz_config_dir, 'mapping.rviz')
+    
+
     declare_use_sim_time_argument = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
@@ -34,10 +38,18 @@ def generate_launch_description():
         name='slam_toolbox',
         output='screen')
 
+    rviz = Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', rviz_config_file],
+            parameters=[{'use_sim_time': use_sim_time}])
     ld = LaunchDescription()
 
     ld.add_action(declare_use_sim_time_argument)
     ld.add_action(declare_slam_params_file_cmd)
+    ld.add_action(rviz)
     ld.add_action(launch_mapping)
 
     return ld

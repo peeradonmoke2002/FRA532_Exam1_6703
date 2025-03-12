@@ -1,43 +1,31 @@
 import os
 
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python.packages import get_package_share_directory, get_package_prefix
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.event_handlers import OnProcessExit
 from launch_ros.substitutions import FindPackageShare
+from launch.actions import IncludeLaunchDescription
+import launch_ros.actions
+from launch.conditions import IfCondition, UnlessCondition
+import xacro
 
 def generate_launch_description():
+    warehouse_pkg_dir = get_package_share_directory('aws_robomaker_small_warehouse_world')
+    warehouse_launch_path = os.path.join(warehouse_pkg_dir, 'launch')
 
-
+    # Add Here
     mir_description_dir = get_package_share_directory('mir_description')
     mir_gazebo_dir = get_package_share_directory('mir_gazebo')
-    robot_slam_package = "robot_slam"
 
-    package_name_world = "aws_robomaker_small_warehouse_world"
-    world_file = "no_roof_small_warehouse.world"
-    gazebo_models_path = 'models'
 
-    ### rviz ###
-    rviz_config_file = "mapping.rviz"
+    warehouse_world_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([warehouse_launch_path, '/no_roof_small_warehouse.launch.py'])
+    )
 
-    spawn_x_val = "0.0"
-    spawn_y_val = "0.0"
-    spawn_z_val = "0.0"
-    spawn_yaw_val = "0.0"
-
-    ## Paths ##
-    ### use slam dir ###
-    rviz_file_path = os.path.join(get_package_share_directory(robot_slam_package), "rviz", rviz_config_file)
-
-    # world_path = os.path.join(get_package_share_directory(package_name), "worlds", world_file)
-    world_path = os.path.join(get_package_share_directory(package_name_world), 'worlds', 'no_roof_small_warehouse', world_file)
-
-    pkg_share = FindPackageShare(package=package_name_world).find(package_name_world)
-    gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
-    os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path + ":" + os.environ.get("GAZEBO_MODEL_PATH", "")
-
-    # Include Robot State Publisher
+    # Add Here
     launch_mir_description = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(mir_description_dir, 'launch', 'mir_launch.py')
@@ -51,78 +39,68 @@ def generate_launch_description():
         )
     )
 
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("gazebo_ros"), "launch", "gazebo.launch.py")
-        ),
-        launch_arguments={'world': world_path}.items()
-    )  
-
-    slam_toolbox = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory("robot_slam"), "launch", "mapping.launch.py")
-        ),
-        launch_arguments={'use_sim_time': 'true'}.items()
+    merge_laser_launch = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(
+        os.path.join(get_package_share_directory("ros2_laser_scan_merger"), "launch", "merge_2_scan.launch.py")
+        )
     )
 
-    # Spawn the robot at a specific location
-    spawn_entity = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
-        arguments=[
-            "-topic", "robot_description",
-            "-entity", "mir_robot",
-            "-x", spawn_x_val,
-            "-y", spawn_y_val,
-            "-z", spawn_z_val,
-            "-Y", spawn_yaw_val
-        ],
+    # launch_teleop = Node(
+    #     package='teleop_twist_keyboard',
+    #     executable='teleop_twist_keyboard',
+    #     namespace='',
+    #     output='screen',
+    #     prefix='xterm -e')
+
+    diff_yaw_rate_odom = Node(
+        package='robot_control',
+        executable='diff_yaw_rate_odom.py',
+        namespace='',
+        output='screen'
+    )
+    
+    spawn_robot = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=['-entity', 'mir_robot',
+                '-topic', 'robot_description',
+                '-b'],
+        namespace='',
+        output='screen')
+
+    static_tf = launch_ros.actions.Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
         output="screen"
     )
-    
-    ## Will use later ##
 
-    # robot_localization_node = Node(
-    #      package='robot_localization',
-    #         executable='ekf_node',
-    #         name='ekf_filter_node',
-    #         output='screen',
-    #         parameters=[carver_odometry_ekf]
-    # )
 
-    print("GAZEBO_WORD_PATH = ", world_path)
-    print("GAZEBO_MODEL_PATH = " + str(os.environ["GAZEBO_MODEL_PATH"]))
 
-    ## Controller Spawners ##
-
-    # diffdrive_controller = Node(
-    # 	package=package_name_controller,
-    # 	executable="diffdrive_controller.py",
-    #     name='diffdrive_controller',
-    # )
-
-   ## Start RViz ##
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_file_path],
-    )
-
-     # Create LaunchDescription
     ld = LaunchDescription()
+    # Start controllers in correct order
+    # ld.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=spawn_robot,
+    #             on_exit=[joint_state_broadcaster_spawner],
+    #         )
+    #     )
+    # )
 
+    # ld.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=joint_state_broadcaster_spawner,
+    #             on_exit=[velocity_controller_spawner],
+    #         )
+    #     )
+    # )
 
-    # Add launch actions
-    ld.add_action(gazebo)
-    ld.add_action(spawn_entity)
-    ld.add_action(rviz_node)
+    # ld.add_action(diff_yaw_rate_odom)
+    ld.add_action(warehouse_world_cmd)
     ld.add_action(launch_mir_description)
     ld.add_action(launch_mir_gazebo_common)
-    ld.add_action(slam_toolbox)
-
+    ld.add_action(spawn_robot)
 
     return ld
-
-    

@@ -10,11 +10,11 @@ from launch_ros.actions import Node
 def generate_launch_description():
     
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
-    my_nav_pkg_dir = get_package_share_directory('carver_navigation')
+    my_nav_pkg_dir = get_package_share_directory('robot_nav')
     
-    rviz_config_file = os.path.join(my_nav_pkg_dir, 'rviz', 'navigation.rviz')
+    rviz_config_file = os.path.join(my_nav_pkg_dir, 'rviz', 'nav.rviz')
     map_yaml_file = os.path.join(my_nav_pkg_dir, 'maps', 'map.yaml')
-    params_file = os.path.join(my_nav_pkg_dir, 'params', 'basic_params.yaml')
+    params_file = os.path.join(my_nav_pkg_dir, 'config', 'basic.yaml')
     
     slam = LaunchConfiguration('slam')
     use_sim_time = LaunchConfiguration('use_sim_time')

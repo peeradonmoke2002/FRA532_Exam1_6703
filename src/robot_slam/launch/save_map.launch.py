@@ -21,7 +21,8 @@ def get_next_map_prefix(maps_dir: Path, base_name: str = "map"):
 
 def generate_launch_description():
     # Define the maps directory in the user's home folder
-    maps_dir = Path.home() / "maps"
+    path_robot_nav = Path.home() / "FRA532_Exam1_6703" / "src" / "robot_nav"
+    maps_dir = path_robot_nav / "maps"
     # Create the maps directory if it does not exist
     maps_dir.mkdir(parents=True, exist_ok=True)
     
