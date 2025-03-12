@@ -57,4 +57,4 @@ CATKIN_IGNORE
 
 
 # ignore model folder
-/src/carver_gazebo/models/*
+# /src/carver_gazebo/models/*
