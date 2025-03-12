@@ -12,6 +12,13 @@ This `Exam 1` repository is used in the `FRA532 Mobile Robot` class at FIBO. It 
 
 
 
+
+
+
+https://github.com/user-attachments/assets/da60ee79-d010-4332-b1ee-d6eff75d68f2
+
+
+
 ## System Overview
 
 
