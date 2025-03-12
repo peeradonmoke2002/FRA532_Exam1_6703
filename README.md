@@ -1,7 +1,7 @@
 # FRA532 Mobile Robot : Exam1
 This `Exam 1` repository is used in the `FRA532 Mobile Robot` class at FIBO. It covers kinematics, odometry, slam and navigation aims to do ekf filter with combine with imu+gps by use diff drive `mir robot` **executes in Gazebo simulation environment**.
 
-## Team
+## Contributor
 67340700403 พีรดนย์ เรืองแก้ว
 
 ## Table of Contents
