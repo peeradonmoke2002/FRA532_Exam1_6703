@@ -10,6 +10,8 @@ from launch_ros.substitutions import FindPackageShare
 from launch.actions import IncludeLaunchDescription
 import launch_ros.actions
 from launch.conditions import IfCondition, UnlessCondition
+import xacro
+
 def generate_launch_description():
 
 
@@ -34,8 +36,8 @@ def generate_launch_description():
     
     # Paths
     rviz_file_path = os.path.join(get_package_share_directory(package_name_urdf), "rviz", rviz_file_name)
-    world_path = os.path.join(get_package_share_directory(package_name), "worlds", world_file)
-    # world_path = os.path.join(get_package_share_directory('aws_robomaker_small_warehouse_world'), 'worlds', 'no_roof_small_warehouse', 'no_roof_small_warehouse.world')
+    # world_path = os.path.join(get_package_share_directory(package_name), "worlds", world_file)
+    world_path = os.path.join(get_package_share_directory('aws_robomaker_small_warehouse_world'), 'worlds', 'no_roof_small_warehouse', 'no_roof_small_warehouse.world')
     pkg_share = FindPackageShare(package=package_name).find(package_name)
     gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path + ":" + os.environ.get("GAZEBO_MODEL_PATH", "")
@@ -47,10 +49,13 @@ def generate_launch_description():
     # Include Robot State Publisher
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory(package_name_urdf), "launch", "rsp.launch.py")
+            os.path.join(get_package_share_directory(package_name_urdf), "launch", "carver.launch.py")
         ),
         launch_arguments={"use_sim_time": "true"}.items()
     )
+
+
+
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -93,23 +98,23 @@ def generate_launch_description():
                                 output='screen')
 
 
-    slam_toolbox =  Node(
-        package='slam_toolbox',
-        executable='async_slam_toolbox_node',
-        name='async_slam_toolbox_node',
-        output='screen',
-        parameters=[{'use_sim_time': True}, config_mapping_file])
+    # slam_toolbox =  Node(
+    #     package='slam_toolbox',
+    #     executable='async_slam_toolbox_node',
+    #     name='async_slam_toolbox_node',
+    #     output='screen',
+    #     parameters=[{'use_sim_time': True}, config_mapping_file])
     
 
-    # slam_toolbox_process = ExecuteProcess(
-    #     cmd=[
-    #         'ros2', 'run', 'slam_toolbox', 'async_slam_toolbox_node',
-    #         '--ros-args',
-    #         '-p', f'use_sim_time:=true',
-    #         '--params-file', config_mapping_file
-    #     ],
-    #     output='screen'
-    # )
+    slam_toolbox_process = ExecuteProcess(
+        cmd=[
+            'ros2', 'run', 'slam_toolbox', 'async_slam_toolbox_node',
+            '--ros-args',
+            '-p', f'use_sim_time:=true',
+            '--params-file', config_mapping_file
+        ],
+        output='screen'
+    )
 
     robot_localization_node = Node(
          package='robot_localization',
@@ -168,45 +173,51 @@ def generate_launch_description():
         arguments=["-d", rviz_file_path],
     )
 
+    set_contoller_manager_use_sim_time = ExecuteProcess(
+    cmd=['ros2', 'param', 'set', '/controller_manager', 'use_sim_time', 'true'],
+    output='screen')
+
      # Create LaunchDescription
     launch_description = LaunchDescription()
 
     # Start controllers in correct order
-    launch_description.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=spawn_entity,
-                on_exit=[joint_state_broadcaster_spawner],
-            )
-        )
-    )
+    # launch_description.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=spawn_entity,
+    #             on_exit=[joint_state_broadcaster_spawner,
+    #                      set_contoller_manager_use_sim_time],
+    #         )
+    #     )
+    # )
 
-    launch_description.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=joint_state_broadcaster_spawner,
-                on_exit=[position_controller_spawner],
-            )
-        )
-    )
 
-    launch_description.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=position_controller_spawner,
-                on_exit=[velocity_controller_spawner],
-            )
-        )
-    )
+    # launch_description.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=joint_state_broadcaster_spawner,
+    #             on_exit=[position_controller_spawner],
+    #         )
+    #     )
+    # )
 
-    launch_description.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=velocity_controller_spawner,
-                on_exit=[rviz_node],
-            )
-        )
-    )
+    # launch_description.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=position_controller_spawner,
+    #             on_exit=[velocity_controller_spawner],
+    #         )
+    #     )
+    # )
+
+    # launch_description.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=velocity_controller_spawner,
+    #             on_exit=[rviz_node],
+    #         )
+    #     )
+    # )
 
     # launch_description.add_action(
     #     RegisterEventHandler(
@@ -227,44 +238,20 @@ def generate_launch_description():
     )
 
     # Add launch actions
-    # launch_description.add_action(rviz_node)
+    launch_description.add_action(rviz_node)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
-    launch_description.add_action(controller)
+    # launch_description.add_action(controller)
     launch_description.add_action(rsp)
     # launch_description.add_action(static_tf)
+    # launch_description.add_action(set_contoller_manager_use_sim_time)
 
-    launch_description.add_action(merge_lidar_launch)
-    launch_description.add_action(merge_imu_launch)
-    launch_description.add_action(ackerman_yaw_rate_odom)
-    launch_description.add_action(slam_toolbox)
+    # launch_description.add_action(merge_lidar_launch)
+    # launch_description.add_action(merge_imu_launch)
+    # launch_description.add_action(ackerman_yaw_rate_odom)
+    # launch_description.add_action(slam_toolbox_process)
     # launch_description.add_action(robot_localization_node)
 
     return launch_description
 
-    # package_name = "carver_gazebo"
-    # package_name_urdf = "carver_description"
-    # package_name_controller = "carver_controller"
-    # package_name_slam = "carver_slam"
-    # package_name_odometry = "carver_odometry"
-
-    # config_mapping_file = os.path.join(package_name_slam, 'config','mapping_async.yaml')
-    # carver_odometry_ekf = os.path.join(package_name_odometry, 'params','ekf.yaml')
-
-    # slam_toolbox =  Node(
-    #     package='slam_toolbox',
-    #     executable='async_slam_toolbox_node',
-    #     name='async_slam_toolbox_node',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': True}, config_mapping_file])
     
-
-    # slam_toolbox_process = ExecuteProcess(
-    #     cmd=[
-    #         'ros2', 'run', 'slam_toolbox', 'async_slam_toolbox_node',
-    #         '--ros-args',
-    #         '-p', f'use_sim_time:=true',
-    #         '--params-file', config_mapping_file
-    #     ],
-    #     output='screen'
-    # )

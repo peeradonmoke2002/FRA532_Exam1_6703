@@ -17,13 +17,13 @@ class AckermannYawRateOdom(Node):
         super().__init__('ackermann_yaw_rate_odom')
         queue_size = 10
         self.dt_loop = 1 / 100.0  # 100 Hz update rate
-        self.prev_time = self.get_clock().now()
+
         # Robot parameters
         self.wheel_base = 1.27196        
         self.wheel_radius = 0.175   
         self.track_width = 0.79085   
 
-        # Publ ishers and timer
+        # Publishers and timer
         self.publisher = self.create_publisher(Odometry, 'odom', queue_size)
         self.timer = self.create_timer(self.dt_loop, self.timer_callback)
 
@@ -46,45 +46,6 @@ class AckermannYawRateOdom(Node):
         spawn_yaw_val = 0.0  # In radians; note that this should be consistent with your IMU's frame.
         self.robot_position = np.array([spawn_x_val, spawn_y_val, spawn_yaw_val])
         self.orientation = tf_transformations.quaternion_from_euler(0.0, 0.0, self.robot_position[2])
-        self.imu_angular_velocity_z = 0.0
-        # Initialize odometry variables
-        self.odom_msg = Odometry(
-            header=Header(
-                stamp=self.get_clock().now().to_msg(),
-                frame_id='odom'
-            ),
-            child_frame_id='base_footprint',
-            pose=PoseWithCovariance(
-                pose=Pose(
-                    position=Point(
-                        x=0.0,
-                        y=0.0,
-                        z=0.0
-                    ),
-                    orientation=Quaternion(
-                        x=0.0,
-                        y=0.0,
-                        z=0.0,
-                        w=1.0
-                    )
-                ),
-                covariance= self.pose_cov.flatten()
-            ),
-            twist=TwistWithCovariance(
-                twist=Twist(
-                    linear=Vector3(
-                        x=0.0,
-                        y=0.0,
-                        z=0.0
-                    ),
-                    angular=Vector3(
-                        z=0.0
-                    )
-                ),
-                covariance= self.twist_cov.flatten()
-            )
-        )
-
 
         # Odometry state variables
         self.relative_yaw = 0.0  # Change in yaw from the initial IMU reading
@@ -126,25 +87,22 @@ class AckermannYawRateOdom(Node):
             self.initial_orientation = yaw
         self.relative_yaw = yaw - self.initial_orientation
         self.ax = msg.linear_acceleration.x
-        self.imu_angular_velocity_z = msg.angular_velocity.z
 
     def timer_callback(self):
-        dt = (self.get_clock().now() - self.prev_time).nanoseconds * 1e-9  # safer
-        now = self.get_clock().now().to_msg() 
         self.wheelspeed = self.get_wheel_speed(self.wheel_omega)
         # Update absolute yaw (here, robot_position[2] remains initial yaw; consider integrating angular velocity if needed)
-        # self.absolute_yaw = self.robot_position[2] + self.relative_yaw
-        vx = self.wheelspeed * math.cos(self.relative_yaw)
-        vy = self.wheelspeed * math.sin(self.relative_yaw)
+        self.absolute_yaw = self.robot_position[2] + self.relative_yaw
+        vx = self.wheelspeed * math.cos(self.absolute_yaw)
+        vy = self.wheelspeed * math.sin(self.absolute_yaw)
         # Update robot position in the plane
-        self.robot_position[0] += vx * dt
-        self.robot_position[1] += vy * dt
+        self.robot_position[0] += vx * self.dt_loop
+        self.robot_position[1] += vy * self.dt_loop
 
-        quaternion = tf_transformations.quaternion_from_euler(0.0, 0.0, self.relative_yaw)
+        quaternion = tf_transformations.quaternion_from_euler(0.0, 0.0, self.absolute_yaw)
 
         # Populate the Odometry message
         odom_msg = Odometry()
-        odom_msg.header.stamp = now
+        odom_msg.header.stamp = self.get_clock().now().to_msg()
         odom_msg.header.frame_id = 'odom'
         odom_msg.child_frame_id = 'base_footprint'
         odom_msg.pose.pose = Pose(
@@ -160,18 +118,18 @@ class AckermannYawRateOdom(Node):
                 w=quaternion[3]
             )
         )
-        odom_msg.pose.covariance = self.pose_cov.flatten().tolist()
+        # odom_msg.pose.covariance = self.pose_cov.flatten().tolist()
         odom_msg.twist.twist.linear = Vector3(x=vx, y=0.0, z=0.0)
         # odom_msg.twist.twist.angular = Vector3(x=0.0, y=0.0, z=self.absolute_yaw)
-        odom_msg.twist.twist.angular = Vector3(x=0.0, y=0.0, z=self.relative_yaw)
+        odom_msg.twist.twist.angular = Vector3(x=0.0, y=0.0, z=0.0)
 
-        odom_msg.twist.covariance = self.twist_cov.flatten().tolist()
+        # odom_msg.twist.covariance = self.twist_cov.flatten().tolist()
 
         self.publisher.publish(odom_msg)
         
         # Publish TF transform from odom to base_footprint
         transform = TransformStamped()
-        transform.header.stamp = now
+        transform.header.stamp = odom_msg.header.stamp
         transform.header.frame_id = 'odom'
         transform.child_frame_id = 'base_footprint'
         transform.transform.translation.x = odom_msg.pose.pose.position.x
@@ -180,11 +138,10 @@ class AckermannYawRateOdom(Node):
         transform.transform.rotation = odom_msg.pose.pose.orientation
 
         self.tf_br.sendTransform(transform)
-        self.prev_time = self.get_clock().now() 
+
         # print('x:', np.round(self.robot_position[0], 3), 
         #       'y:', np.round(self.robot_position[1], 3), 
-        #       'yaw:', np.round(self.absolute_yaw, 3))_
-
+        #       'yaw:', np.round(self.absolute_yaw, 3))
 def main(args=None):
     rclpy.init(args=args)
     pub_odom_node = AckermannYawRateOdom()

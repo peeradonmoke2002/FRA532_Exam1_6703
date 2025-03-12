@@ -128,7 +128,7 @@
           <material>Gazebo/FlatBlack</material>
           <sensor name="RPLIDAR_LB_Link" type="ray">
           <visualize>false</visualize>
-          <update_rate>10</update_rate>
+          <update_rate>12.5</update_rate>
           <ray>
               <scan>
               <horizontal>
@@ -164,7 +164,7 @@
           <material>Gazebo/FlatBlack</material>
           <sensor name="RPLIDAR_RF_Link" type="ray">
           <visualize>false</visualize>
-          <update_rate>10</update_rate>
+          <update_rate>12.5</update_rate>
           <ray>
               <scan>
               <horizontal>
