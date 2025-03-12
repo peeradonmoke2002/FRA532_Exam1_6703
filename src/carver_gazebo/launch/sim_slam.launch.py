@@ -9,11 +9,12 @@ from launch.event_handlers import OnProcessExit
 from launch_ros.substitutions import FindPackageShare
 from launch.actions import IncludeLaunchDescription
 import launch_ros.actions
-
+from launch.conditions import IfCondition, UnlessCondition
 def generate_launch_description():
 
 
     package_name = "carver_gazebo"
+    package_name_world = "aws_robomaker_small_warehouse_world"
     package_name_controller = "carver_controller"
     package_name_slam = "carver_slam"
     package_name_odometry = "carver_odometry"
@@ -21,6 +22,7 @@ def generate_launch_description():
 
     world_file = "small_city.world"
     # world_file = "empty.world"
+    # world_file = "no_roof_small_warehouse.world"
     gazebo_models_path = 'models'
     rviz_file_name = "mapping.rviz"
 
@@ -33,6 +35,7 @@ def generate_launch_description():
     # Paths
     rviz_file_path = os.path.join(get_package_share_directory(package_name_urdf), "rviz", rviz_file_name)
     world_path = os.path.join(get_package_share_directory(package_name), "worlds", world_file)
+    # world_path = os.path.join(get_package_share_directory('aws_robomaker_small_warehouse_world'), 'worlds', 'no_roof_small_warehouse', 'no_roof_small_warehouse.world')
     pkg_share = FindPackageShare(package=package_name).find(package_name)
     gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path + ":" + os.environ.get("GAZEBO_MODEL_PATH", "")
@@ -44,7 +47,7 @@ def generate_launch_description():
     # Include Robot State Publisher
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory(package_name_urdf), "launch", "carver.launch.py")
+            os.path.join(get_package_share_directory(package_name_urdf), "launch", "rsp.launch.py")
         ),
         launch_arguments={"use_sim_time": "true"}.items()
     )
@@ -59,7 +62,8 @@ def generate_launch_description():
     merge_lidar_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("carver_controller"), "launch", "merge_lidar.launch.py")
-        )
+        ),
+        # launch_arguments={"use_sim_time": "false"}.items()
     )
 
     merge_imu_launch = IncludeLaunchDescription(
@@ -74,7 +78,6 @@ def generate_launch_description():
         arguments=[
             "-topic", "robot_description",
             "-entity", "carver_description",
-            '-timeout', '120.0',
             "-x", spawn_x_val,
             "-y", spawn_y_val,
             "-z", spawn_z_val,
@@ -82,6 +85,13 @@ def generate_launch_description():
         ],
         output="screen"
     )
+
+
+    joint_state_publisher = Node(package='joint_state_publisher',
+                                executable='joint_state_publisher',
+                                name='joint_state_publisher',
+                                output='screen')
+
 
     slam_toolbox =  Node(
         package='slam_toolbox',
@@ -115,13 +125,16 @@ def generate_launch_description():
 
     controller = Node(
     	package=package_name_controller,
-    	executable="ackermann_controller.py"
+    	executable="ackermann_controller.py",
+        name='ackermann_controller',
     )
 
-    ackermann_yaw_rate = Node(
-        package=package_name_odometry,
-        executable="ackerman_yaw_rate_odom.py"
+    ackerman_yaw_rate_odom = Node(
+        package='carver_odometry',
+        executable='ackerman_yaw_rate_odom.py',
+        name='ackerman_odom',
     )
+    
 
 
     joint_state_broadcaster_spawner = Node(
@@ -146,11 +159,13 @@ def generate_launch_description():
     )
 
    # Start RViz
-    rviz = Node(
+
+    rviz_node = Node(
         package="rviz2",
         executable="rviz2",
+        name="rviz2",
+        output="log",
         arguments=["-d", rviz_file_path],
-        output="screen"
     )
 
      # Create LaunchDescription
@@ -184,6 +199,25 @@ def generate_launch_description():
         )
     )
 
+    launch_description.add_action(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=velocity_controller_spawner,
+                on_exit=[rviz_node],
+            )
+        )
+    )
+
+    # launch_description.add_action(
+    #     RegisterEventHandler(
+    #         event_handler=OnProcessExit(
+    #             target_action=rviz_node,
+    #             on_exit=[ackerman_yaw_rate_odom],
+    #         )
+    #     )
+    # )
+
+
     # Static Transform Publisher (world -> odom)
     static_tf = launch_ros.actions.Node(
         package="tf2_ros",
@@ -193,17 +227,18 @@ def generate_launch_description():
     )
 
     # Add launch actions
-    launch_description.add_action(rviz)
+    # launch_description.add_action(rviz_node)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
     launch_description.add_action(controller)
     launch_description.add_action(rsp)
-    launch_description.add_action(static_tf)
+    # launch_description.add_action(static_tf)
+
     launch_description.add_action(merge_lidar_launch)
     launch_description.add_action(merge_imu_launch)
-    launch_description.add_action(ackermann_yaw_rate)
+    launch_description.add_action(ackerman_yaw_rate_odom)
     launch_description.add_action(slam_toolbox)
-    launch_description.add_action(robot_localization_node)
+    # launch_description.add_action(robot_localization_node)
 
     return launch_description
 

@@ -52,7 +52,7 @@
           # durability: volatile
           # history: keep_last
           reliability: best_effort
-    queue_size: 16
+    queue_size: 10
     range_min: 0.15000000596046448
     range_max: 40.0
     scan_time: 0.049273036420345306

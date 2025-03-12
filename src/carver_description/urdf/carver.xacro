@@ -24,7 +24,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/base_link.dae" />
+          filename="file:///$(find carver_description)/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -38,7 +38,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/base_link.dae" />
+          filename="file:///$(find carver_description)/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -65,7 +65,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_right_sterring_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_right_sterring_Link.STL" />
       </geometry>
       <material
         name="">
@@ -79,7 +79,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_right_sterring_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_right_sterring_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -118,7 +118,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_right_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_right_wheel_Link.STL" />
       </geometry>
       <material
         name="">
@@ -132,7 +132,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_right_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_right_wheel_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -173,7 +173,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_left_sterring_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_left_sterring_Link.STL" />
       </geometry>
       <material
         name="">
@@ -187,7 +187,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_left_sterring_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_left_sterring_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -226,7 +226,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_left_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_left_wheel_Link.STL" />
       </geometry>
       <material
         name="">
@@ -240,7 +240,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/front_left_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/front_left_wheel_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -280,7 +280,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/rear_right_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/rear_right_wheel_Link.STL" />
       </geometry>
       <material
         name="">
@@ -294,7 +294,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/rear_right_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/rear_right_wheel_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -334,7 +334,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/rear_left_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/rear_left_wheel_Link.STL" />
       </geometry>
       <material
         name="">
@@ -348,7 +348,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/rear_left_wheel_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/rear_left_wheel_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -392,7 +392,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/C16_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/C16_Link.STL" />
       </geometry>
       <material
         name="">
@@ -406,7 +406,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/C16_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/C16_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -445,7 +445,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/T265_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/T265_Link.STL" />
       </geometry>
       <material
         name="">
@@ -459,7 +459,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/T265_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/T265_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -498,7 +498,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/L515_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/L515_Link.STL" />
       </geometry>
       <material
         name="">
@@ -512,7 +512,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/L515_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/L515_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -552,7 +552,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/LD_SICK_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/LD_SICK_Link.STL" />
       </geometry>
       <material
         name="">
@@ -566,7 +566,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file:///$(find carver_description)/meshes/LD_SICK_Link.dae" />
+          filename="file:///$(find carver_description)/meshes/LD_SICK_Link.STL" />
       </geometry>
     </collision>
   </link>

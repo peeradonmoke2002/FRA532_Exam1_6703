@@ -7,11 +7,16 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray
 import numpy as np
+from rclpy.qos import QoSProfile
+from rclpy.qos import QoSReliabilityPolicy
 
 class AckermannController(Node):
     def __init__(self):
         super().__init__('ackermann_controller')
-        
+        best_effort_qos = QoSProfile(
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+            depth=10
+        )
         self.wheel_base = 1.27196        
         self.wheel_radius = 0.175   
         self.track_width = 0.79085   
@@ -108,7 +113,7 @@ class AckermannController(Node):
                 right_angle = outside_angle
                 # wheel_speed_left = self.cmd_vel[0] * (2 - (self.track_width / r_ICR)) / (2 * self.wheel_radius)
                 # wheel_speed_right = self.cmd_vel[0] * (2 + (self.track_width / r_ICR)) / (2 * self.wheel_radius)
-                print(left_angle,right_angle)
+                # print(left_angle,right_angle)
             else:
                 # turn right
                 outside_angle, inside_angle = self.compute_ackermann_angles(self.steer_angle_center)
@@ -116,7 +121,7 @@ class AckermannController(Node):
                 right_angle = inside_angle
                 # wheel_speed_left = self.cmd_vel[0] * (2 + (self.track_width / r_ICR)) / (2 * self.wheel_radius)
                 # wheel_speed_right = self.cmd_vel[0] * (2 - (self.track_width / r_ICR)) / (2 * self.wheel_radius)
-                print(left_angle,right_angle)
+                # print(left_angle,right_angle)
             self.publish_steering(left_angle, right_angle)
 
         # print(wheel_speed_left, wheel_speed_right)
