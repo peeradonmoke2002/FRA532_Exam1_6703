@@ -125,7 +125,7 @@ class MinimalEKFNode(Node):
         
         # Subscribers:
         # Odometry subscriber (for dead reckoning)
-        self.create_subscription(Odometry, '/odom', self.odom_callback, 10)
+        self.create_subscription(Odometry, 'yawrate/odom', self.odom_callback, 10)
         # GPS subscriber using PoseStamped messages
         self.create_subscription(PoseStamped, '/gps', self.gps_callback, 10)
         

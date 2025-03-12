@@ -29,6 +29,9 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/dummy_script.py
   scripts/diff_yaw_rate_odom.py
+  scripts/gps_emulator.py
+  scripts/minimal_EKF3.py
+
   DESTINATION lib/${PROJECT_NAME}
 )
 

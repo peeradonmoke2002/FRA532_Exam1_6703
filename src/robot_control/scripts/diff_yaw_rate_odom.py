@@ -22,7 +22,7 @@ class DiffDriveOdomYawRate(Node):
         self.track_width = 0.445208  
         self.wheel_radius = 0.0625
         # Publishers and timer
-        self.publisher = self.create_publisher(Odometry, '/odom', queue_size)
+        self.publisher = self.create_publisher(Odometry, 'yawrate/odom', queue_size)
         self.timer = self.create_timer(self.dt_loop, self.timer_callback)
 
         # Subscribers
@@ -141,7 +141,7 @@ class DiffDriveOdomYawRate(Node):
         transform.transform.translation.z = odom_msg.pose.pose.position.z
         transform.transform.rotation = odom_msg.pose.pose.orientation
 
-        self.tf_br.sendTransform(transform)
+        # self.tf_br.sendTransform(transform)
 
         # debug # 
         # print('x:', np.round(self.robot_position[0], 3), 

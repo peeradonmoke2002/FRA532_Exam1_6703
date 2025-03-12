@@ -58,7 +58,21 @@ def generate_launch_description():
         namespace='',
         output='screen'
     )
+
+    gps = Node(
+        package='robot_control',
+        executable='gps_emulator.py',
+        namespace='',
+        output='screen'
+    )
     
+    ekf = Node(
+        package='robot_control',
+        executable='minimal_EKF3.py',
+        namespace='',
+        output='screen'
+    )
+
     spawn_robot = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
@@ -102,5 +116,8 @@ def generate_launch_description():
     ld.add_action(launch_mir_description)
     ld.add_action(launch_mir_gazebo_common)
     ld.add_action(spawn_robot)
+    ld.add_action(diff_yaw_rate_odom)
+    ld.add_action(gps)
+    ld.add_action(ekf)
 
     return ld
