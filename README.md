@@ -1,6 +1,9 @@
 # FRA532 Mobile Robot : Exam1
 This `Exam 1` repository is used in the `FRA532 Mobile Robot` class at FIBO. It covers kinematics, odometry, slam and navigation aims to do ekf filter with combine with imu+gps by use diff drive `mir robot` **executes in Gazebo simulation environment**.
 
+## Team
+67340700403 พีรดนย์ เรืองแก้ว
+
 ## Table of Contents
 - [Demo Video](#demo-video)
 - [System Overview](#system-overview)
@@ -93,16 +96,16 @@ step4: save map for use in navigation process
 ros2 launch robot_slam save_map.launch.py
 ```
 > [!IMPORTANT]
->due to this repo foucs on slam the nav2 will not process 
+>due to this repo focus on slam the nav2 will not process 
 
 ### Resutls base from demo video
 
-#### Screenshot while tesing with odom from diff plugin and odom yawrate
+#### Screenshot while testing with odom from diff plugin and odom  yaw rate
 ![image](https://github.com/user-attachments/assets/2d2af7a5-3efa-486f-a495-f0a263a60204)
 
-- base from resutls the yaw rate have error a litte suffer from errors or slippage. howerver is close to odom that pub from diff drive plugin 
+- The yaw rate-based odometry shows slight errors or slippage, but it remains close to the odometry published by the differential drive plugin.n 
 
-#### Screenshot while tesing with odom from diff plugin and odom yawrate and gps with fillter wiht ekf
+#### Screenshot while testing with odom from diff plugin and odom  yaw rate and gps with filter wiht ekf
 ![image](https://github.com/user-attachments/assets/1c9daf59-4095-474d-84df-f2510b4f5c97)
 
-- base from resutls the this have much lage in term of odom due to process to filter is yawrate and gps -> ekf -> odom filter however is req to tune to improve odom to close to odom diff drive
+- The EKF-filtered odometry exhibits a larger lag compared to the differential drive odometry. This lag is due to the filtering process (combining yaw rate and GPS data via EKF). Further tuning is required to achieve closer alignment with the differential drive odometry.
