@@ -97,4 +97,12 @@ ros2 launch robot_slam save_map.launch.py
 
 ### Resutls base from demo video
 
+#### Screenshot while tesing with odom from diff plugin and odom yawrate
+![image](https://github.com/user-attachments/assets/2d2af7a5-3efa-486f-a495-f0a263a60204)
 
+- base from resutls the yaw rate have error a litte suffer from errors or slippage. howerver is close to odom that pub from diff drive plugin 
+
+#### Screenshot while tesing with odom from diff plugin and odom yawrate and gps with fillter wiht ekf
+![image](https://github.com/user-attachments/assets/1c9daf59-4095-474d-84df-f2510b4f5c97)
+
+- base from resutls the this have much lage in term of odom due to process to filter is yawrate and gps -> ekf -> odom filter however is req to tune to improve odom to close to odom diff drive
