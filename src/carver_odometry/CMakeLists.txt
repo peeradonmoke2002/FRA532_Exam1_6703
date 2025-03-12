@@ -29,6 +29,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/dummy_script.py
   scripts/ackerman_yaw_rate_odom.py
+  scripts/ground_truth_odom.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

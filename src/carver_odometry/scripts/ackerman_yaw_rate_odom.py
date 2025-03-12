@@ -16,7 +16,7 @@ class AckermannYawRateOdom(Node):
     def __init__(self):
         super().__init__('ackermann_yaw_rate_odom')
         queue_size = 10
-        self.dt_loop = 1 / 100.0  # 100 Hz update rate
+        self.dt_loop = 1 / 200.0  # 100 Hz update rate
 
         # Robot parameters
         self.wheel_base = 1.27196        
@@ -66,7 +66,7 @@ class AckermannYawRateOdom(Node):
             # Get rear wheel velocities (convert encoder rate to linear velocity)
             v_rl = msg.velocity[left_wheel_index] * self.wheel_radius
             v_rr = msg.velocity[right_wheel_index] * self.wheel_radius
-            self.wheel_omega = np.array([v_rl, v_rr])
+            self.wheel_omega = np.array([-v_rl, v_rr])
 
 
     def get_wheel_speed(self, wheel_omega: np.ndarray) -> float:

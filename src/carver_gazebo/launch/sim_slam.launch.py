@@ -55,8 +55,6 @@ def generate_launch_description():
     )
 
 
-
-
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("gazebo_ros"), "launch", "gazebo.launch.py")
@@ -92,29 +90,24 @@ def generate_launch_description():
     )
 
 
-    joint_state_publisher = Node(package='joint_state_publisher',
-                                executable='joint_state_publisher',
-                                name='joint_state_publisher',
-                                output='screen')
 
-
-    # slam_toolbox =  Node(
-    #     package='slam_toolbox',
-    #     executable='async_slam_toolbox_node',
-    #     name='async_slam_toolbox_node',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': True}, config_mapping_file])
+    slam_toolbox =  Node(
+        package='slam_toolbox',
+        executable='sync_slam_toolbox_node',
+        name='sync_slam_toolbox_node',
+        output='screen',
+        parameters=[{'use_sim_time': True}, config_mapping_file])
     
 
-    slam_toolbox_process = ExecuteProcess(
-        cmd=[
-            'ros2', 'run', 'slam_toolbox', 'async_slam_toolbox_node',
-            '--ros-args',
-            '-p', f'use_sim_time:=true',
-            '--params-file', config_mapping_file
-        ],
-        output='screen'
-    )
+    # slam_toolbox_process = ExecuteProcess(
+    #     cmd=[
+    #         'ros2', 'run', 'slam_toolbox', 'async_slam_toolbox_node',
+    #         '--ros-args',
+    #         '-p', f'use_sim_time:=true',
+    #         '--params-file', config_mapping_file
+    #     ],
+    #     output='screen'
+    # )
 
     robot_localization_node = Node(
          package='robot_localization',
@@ -128,7 +121,7 @@ def generate_launch_description():
     print("GAZEBO_MODEL_PATH = " + str(os.environ["GAZEBO_MODEL_PATH"]))
     # Controller Spawners
 
-    controller = Node(
+    ackermann_controller = Node(
     	package=package_name_controller,
     	executable="ackermann_controller.py",
         name='ackermann_controller',
@@ -138,6 +131,12 @@ def generate_launch_description():
         package='carver_odometry',
         executable='ackerman_yaw_rate_odom.py',
         name='ackerman_odom',
+    )
+
+    ground_truth_odom = Node(
+        package='carver_odometry',
+        executable='ground_truth_odom.py',
+        name='ground_truth_odom',
     )
     
 
@@ -181,40 +180,50 @@ def generate_launch_description():
     launch_description = LaunchDescription()
 
     # Start controllers in correct order
-    # launch_description.add_action(
-    #     RegisterEventHandler(
-    #         event_handler=OnProcessExit(
-    #             target_action=spawn_entity,
-    #             on_exit=[joint_state_broadcaster_spawner,
-    #                      set_contoller_manager_use_sim_time],
-    #         )
-    #     )
-    # )
+    launch_description.add_action(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=spawn_entity,
+                on_exit=[joint_state_broadcaster_spawner,
+                         set_contoller_manager_use_sim_time],
+            )
+        )
+    )
+
+
+    launch_description.add_action(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=joint_state_broadcaster_spawner,
+                on_exit=[position_controller_spawner],
+            )
+        )
+    )
+
+    launch_description.add_action(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=position_controller_spawner,
+                on_exit=[velocity_controller_spawner],
+            )
+        )
+    )
+
+    launch_description.add_action(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=velocity_controller_spawner,
+                on_exit=[rviz_node],
+            )
+        )
+    )
 
 
     # launch_description.add_action(
     #     RegisterEventHandler(
     #         event_handler=OnProcessExit(
-    #             target_action=joint_state_broadcaster_spawner,
-    #             on_exit=[position_controller_spawner],
-    #         )
-    #     )
-    # )
-
-    # launch_description.add_action(
-    #     RegisterEventHandler(
-    #         event_handler=OnProcessExit(
-    #             target_action=position_controller_spawner,
-    #             on_exit=[velocity_controller_spawner],
-    #         )
-    #     )
-    # )
-
-    # launch_description.add_action(
-    #     RegisterEventHandler(
-    #         event_handler=OnProcessExit(
-    #             target_action=velocity_controller_spawner,
-    #             on_exit=[rviz_node],
+    #             target_action=rviz_node,
+    #             on_exit=[slam_toolbox_process],
     #         )
     #     )
     # )
@@ -238,18 +247,19 @@ def generate_launch_description():
     )
 
     # Add launch actions
-    launch_description.add_action(rviz_node)
+    # launch_description.add_action(rviz_node)
     launch_description.add_action(gazebo)
     launch_description.add_action(spawn_entity)
-    # launch_description.add_action(controller)
+    launch_description.add_action(ackermann_controller)
     launch_description.add_action(rsp)
     # launch_description.add_action(static_tf)
     # launch_description.add_action(set_contoller_manager_use_sim_time)
 
-    # launch_description.add_action(merge_lidar_launch)
-    # launch_description.add_action(merge_imu_launch)
-    # launch_description.add_action(ackerman_yaw_rate_odom)
-    # launch_description.add_action(slam_toolbox_process)
+    launch_description.add_action(merge_lidar_launch)
+    launch_description.add_action(merge_imu_launch)
+    launch_description.add_action(ackerman_yaw_rate_odom)
+    # launch_description.add_action(ground_truth_odom)
+    launch_description.add_action(slam_toolbox)
     # launch_description.add_action(robot_localization_node)
 
     return launch_description

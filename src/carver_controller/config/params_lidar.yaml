@@ -26,7 +26,7 @@
     laser2ZOff: 0.0
     pointCloudTopic: cloud_in
     pointCloutFrameId: laser
-    qos_overrides./parameter_events.publisher.depth: 1000
+    qos_overrides./parameter_events.publisher.depth: 10
     # qos_overrides./parameter_events.publisher.durability: volatile
     # qos_overrides./parameter_events.publisher.history: keep_last
     qos_overrides./parameter_events.publisher.reliability: best_effort
@@ -48,7 +48,7 @@
     qos_overrides:
       /parameter_events:
         publisher:
-          depth: 1000
+          depth: 10
           # durability: volatile
           # history: keep_last
           reliability: best_effort
