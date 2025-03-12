@@ -88,18 +88,13 @@ step3: Control robot to collect map data
 ```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
-step4: save map
+step4: save map for use in navigation process
 ```
 ros2 launch robot_slam save_map.launch.py
 ```
+> [!IMPORTANT]
+>due to this repo foucs on slam the nav2 will not process 
 
-### Step for do nav
+### Resutls base from demo video
 
-step 1: open gazbo and import model robot
-```bash
-ros2 launch robot_bringup sim_slam.launch.py
-```
-step 2: open rviz and nav2
-```bash
-ros2 launch robot_nav nav.launch.py
-```
+
